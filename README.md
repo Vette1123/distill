@@ -1,36 +1,51 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# distill
 
-## Getting Started
+**Squeeze any document into AI-ready text.** Drop in a PDF or image and get clean,
+copy-paste-ready Markdown that costs a fraction of the tokens — with a live count of
+how much you saved.
 
-First, run the development server:
+Everything runs **100% in your browser**. No backend, no API keys, no uploads — your
+files never leave your device.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Why
+
+Sending a page to an LLM as an **image** costs ~1,100–2,500 vision tokens regardless of
+how little text is on it, and the model can misread it. The same page as **Markdown text**
+is usually a small fraction of that, costs less per token, and reads perfectly. Distill
+does that conversion for you and shows the savings.
+
+## How it works
+
+```
+File dropped in
+   ├─ Image ─────────────────────► Tesseract OCR ─► clean Markdown
+   └─ PDF
+        ├─ has embedded text? ────► extract directly  (instant, free, exact)
+        └─ scanned page? ─────────► rasterise → OCR    (per-page fallback)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Digital PDFs** → text extracted with [pdf.js](https://mozilla.github.io/pdf.js/),
+  using font-size to recover headings and vertical gaps to re-flow paragraphs.
+- **Scanned PDFs & images** → read with [Tesseract.js](https://tesseract.projectnaptha.com/)
+  OCR, entirely in the browser.
+- **Token savings** estimated with the standard high-detail vision tiling formula vs. the
+  GPT tokenizer ([gpt-tokenizer](https://github.com/niieani/gpt-tokenizer)) count of the output.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Stack
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Next.js 16 · React 19 · Tailwind v4 · shadcn/ui · Motion · pdf.js · Tesseract.js
 
-## Learn More
+## Develop
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm install      # also copies the pdf.js worker into /public
+npm run dev      # http://localhost:3000
+npm run build
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Notes & limits
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Because it's free and local, OCR and Markdown cleanup are **heuristic** — excellent on
+clean digital PDFs, weaker on messy handwriting or complex tables. Mostly-visual images
+(photos, charts with no text) are flagged so you know to send them as images instead.
+The first OCR run downloads a small English model from a CDN.

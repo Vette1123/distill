@@ -39,3 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# generated test fixtures (keep the generator scripts, drop the binaries)
+/test-fixtures/*.pdf
+/test-fixtures/*.png
