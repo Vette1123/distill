@@ -1,18 +1,18 @@
 # distill
 
-**Squeeze any document into AI-ready text.** Drop in a PDF or image and get clean,
-copy-paste-ready Markdown that costs a fraction of the tokens — with a live count of
+**Turn any document into AI-ready text.** Drop in a PDF or image and get clean,
+copy-paste-ready Markdown that costs a fraction of the tokens, with a live count of
 how much you saved.
 
-Everything runs **100% in your browser**. No backend, no API keys, no uploads — your
-files never leave your device.
+Everything runs **100% in your browser**. There is no backend, no API key and no
+upload, so your files never leave your device.
 
 ## Why
 
 Sending a page to an LLM as an **image** costs ~1,100–2,500 vision tokens regardless of
 how little text is on it, and the model can misread it. The same page as **Markdown text**
-is usually a small fraction of that, costs less per token, and reads perfectly. Distill
-does that conversion for you and shows the savings.
+is usually a small fraction of that, costs less per token, and reads cleanly. Distill
+converts the page and shows the savings.
 
 ## How it works
 
@@ -45,7 +45,7 @@ npm run build
 
 ## Notes & limits
 
-Because it's free and local, OCR and Markdown cleanup are **heuristic** — excellent on
-clean digital PDFs, weaker on messy handwriting or complex tables. Mostly-visual images
+Because it's free and local, OCR and Markdown cleanup are **heuristic**. They work well on
+clean digital PDFs and less well on messy handwriting or complex tables. Mostly-visual images
 (photos, charts with no text) are flagged so you know to send them as images instead.
 The first OCR run downloads a small English model from a CDN.
